@@ -10,9 +10,11 @@
     <script src="js/libs/OrbitControls.js"></script>
 
     <!-- CODEMIRROR -->
-    <script src="js/libs/codemirror/lib/codemirror.js"></script>
-    <link rel="stylesheet" href="js/libs/codemirror/theme/eclipse.css">
-    <script src="js/libs/codemirror/mode/javascript/javascript.js"></script>
+    <script src="js/libs/codemirror-5.43.0/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="js/libs/codemirror-5.43.0/lib/codemirror.css">
+    <link rel="stylesheet" href="js/libs/codemirror-5.43.0/theme/darcula.css">
+    <script src="js/libs/codemirror-5.43.0/mode/javascript/javascript.js"></script>
+
 
     
     <!-- <script>
@@ -24,10 +26,10 @@
 </head>
 <body>
     
+    <!-- HTML DOM - BEGIN -->
     <div class="row">
         <div class="column" style="background-color:#aaa;">
-            <textarea id="codeText" rows="20" cols="80">It was a dark and stormy night...
-            </textarea>
+            <textarea id="codeText" rows="20" cols="80"></textarea>
             <button onclick="sendCode()">Compile</button>
         </div>
         <div class="column" style="background-color:#ccc">
@@ -35,50 +37,52 @@
         </div>
     </div>
 
+    <!-- HTML DOM - END -->
+
+    <!-- HTML SCRIPTS BEGIN -->
+
     <!-- CODE MIRROR SCRIPT -->
     <script>
-        // var myCodeMirror = CodeMirror(document.getElementById("codefield"), {
-        //     value: "Starting Text\nLine Two\nLine3",
-        //     mode:  "javascript",
-        //     linenumber: true
-        // });
-        
-        /*
-        var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("codefield"), {
+        var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("codeText"), {
             value: "Starting Text\nLine Two\nLine3",
             mode:  "javascript",
-            linenumber: true
+            theme: "darcula",
+            lineNumbers: true
         });
-        */
+        
+        //myCodeMirror.setValue("Start-up Text"); // --> onWinLoad function (bototm)
 
-
+        
+        // myCodeMirror.refresh();
     </script>
 
 
     <script>
         function sendCode(){
-            var codeText = document.getElementById("codeText").value;
-            console.log(codeText);
+            //var codeText = document.getElementById("codeText").value;
+            var codeString = myCodeMirror.getValue();
+            console.log(codeString);
 
-            shaderMaterial.vertexShader = codeText;
+            shaderMaterial.vertexShader = codeString;
             voxelCube.material.needsUpdate = true;
             
         }
     </script>
+
     <!-- HTML SCRIPTS END -->
 
     
     <!-- SHADER - VERTEX -->
     <script type="x-shader/x-vertex" id="vertexShader">
-        varying vec3 vColor;
-        void main() {
-            // position (vec3) is the vertex input attribute, in model space
-            
-            vColor = color;
+varying vec3 vColor;
+void main() {
+    // position (vec3) is the vertex input attribute, in model space
+    
+    vColor = color;
 
-            vec4 finalPos = vec4(position.x * (1.0 - position.y), position.y, position.z, 1.0);
-            gl_Position = projectionMatrix * modelViewMatrix * finalPos;
-        }
+    vec4 finalPos = vec4(position.x * (1.0 - position.y), position.y, position.z, 1.0);
+    gl_Position = projectionMatrix * modelViewMatrix * finalPos;
+}
     </script>
 
     <!-- SHADER - FRAGMENT  -->
@@ -244,7 +248,7 @@
 
 
         function onWinLoad() {
-
+            myCodeMirror.setValue(document.getElementById("vertexShader").textContent);
         }
 
     </script>

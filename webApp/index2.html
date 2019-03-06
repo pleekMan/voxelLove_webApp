@@ -1,0 +1,58 @@
+<html>
+
+<head>
+    <meta charset=utf-8>
+    <title>Voxel Love webApp</title>
+
+
+    <!-- CODEMIRROR -->
+    <script src="js/libs/codemirror-5.43.0/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="js/libs/codemirror-5.43.0/lib/codemirror.css">
+    <link rel="stylesheet" href="js/libs/codemirror-5.43.0/theme/darcula.css">
+    <script src="js/libs/codemirror-5.43.0/mode/javascript/javascript.js"></script>
+
+
+
+</head>
+<body>
+    
+    <div class="row">
+
+        <div class="column" style="background-color:#aaa;">
+            <textarea id="codeText" rows="20" cols="80">It was a dark and stormy night...
+            </textarea>
+            
+        </div>
+
+        <div class="column" style="background-color:#ccc">
+            <div id="viewport"></div>
+        </div>
+    </div>
+
+    <!-- CODE MIRROR SCRIPT -->
+    <script>
+        // var myCodeMirror = CodeMirror(document.getElementById("codefield"), {
+        //     value: "Starting Text\nLine Two\nLine3",
+        //     mode:  "javascript",
+        //     linenumber: true
+        // });
+        
+        
+        var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("codeText"), {
+            value: "Starting Text\nLine Two\nLine3",
+            mode:  "javascript",
+            theme: "darcula",
+            lineNumbers: true
+        });
+
+        // var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("codeText"));
+        // myCodeMirror.refresh();
+        
+        
+
+
+    </script>
+    
+</body>
+
+</html>

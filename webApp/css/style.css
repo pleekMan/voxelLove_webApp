@@ -21,13 +21,14 @@
  /* Create two equal columns that sits next to each other */
  .column {
 	flex: 50%;
-	float: left;
+	/* float: left; */
 	padding: 3px;
-	height: 500px; 
+	/* width: 400px; */
+	height: 500px;
 	/* display: inline-block; */
  }
 
-textarea {
+/* textarea {
 	font-size: 15px;
 	letter-spacing: 1px;
 	padding: 10px;
@@ -36,4 +37,4 @@ textarea {
 	border: 1px dashed #050;
 	box-shadow: 1px 1px 1px #999;
 
-}
+} */
