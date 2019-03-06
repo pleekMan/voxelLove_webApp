@@ -4,28 +4,69 @@
     <meta charset=utf-8>
     <title>Voxel Love webApp</title>
 
+    <!-- STYLE + THREEjs STUFF -->
     <link rel="stylesheet" href="css/style.css">
     <script src="js/libs/three.js"></script>
     <script src="js/libs/OrbitControls.js"></script>
 
+    <!-- CODEMIRROR -->
+    <script src="js/libs/codemirror/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="js/libs/codemirror/theme/eclipse.css">
+    <script src="js/libs/codemirror/mode/javascript/javascript.js"></script>
 
+    
+    <!-- <script>
+        var myCodeMirror = CodeMirror(document.body);
+    </script> -->
+    
 
 
 </head>
 <body>
-
     
-
-
     <div class="row">
         <div class="column" style="background-color:#aaa;">
-          <p>TextDiv</p>
+            <textarea id="codeText" rows="20" cols="80">It was a dark and stormy night...
+            </textarea>
+            <button onclick="sendCode()">Compile</button>
         </div>
         <div class="column" style="background-color:#ccc">
-          <!-- <p>viewPort Div</p> -->
           <div id="viewport"></div>
         </div>
-      </div>
+    </div>
+
+    <!-- CODE MIRROR SCRIPT -->
+    <script>
+        // var myCodeMirror = CodeMirror(document.getElementById("codefield"), {
+        //     value: "Starting Text\nLine Two\nLine3",
+        //     mode:  "javascript",
+        //     linenumber: true
+        // });
+        
+        /*
+        var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("codefield"), {
+            value: "Starting Text\nLine Two\nLine3",
+            mode:  "javascript",
+            linenumber: true
+        });
+        */
+
+
+    </script>
+
+
+    <script>
+        function sendCode(){
+            var codeText = document.getElementById("codeText").value;
+            console.log(codeText);
+
+            shaderMaterial.vertexShader = codeText;
+            voxelCube.material.needsUpdate = true;
+            
+        }
+    </script>
+    <!-- HTML SCRIPTS END -->
+
     
     <!-- SHADER - VERTEX -->
     <script type="x-shader/x-vertex" id="vertexShader">
@@ -58,6 +99,7 @@
 
         var voxelCube; // type: Points. [A Object3D class for displaying meshes as points (with gl_Points)]
         var vertexDensity = 100.0;
+        var shaderMaterial;
 
         setup();
         animate();
@@ -109,6 +151,7 @@
             draw();
 
             requestAnimationFrame(animate);
+
             renderer.render(scene, camera);
 
         }
@@ -152,7 +195,7 @@
 
             //material = new THREE.MeshBasicMaterial({ vertexColors: THREE.VertexColors});
 
-            var shaderMaterial = new THREE.ShaderMaterial( {
+            shaderMaterial = new THREE.ShaderMaterial( {
 				//uniforms: uniforms,
 				vertexShader: document.getElementById( 'vertexShader' ).textContent,
 				fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
@@ -171,7 +214,7 @@
         // EVENTS
         function onMouseDown(event) {
 
-            event.preventDefault();
+            // event.preventDefault();
 
             switch (event.which) {
                 case 1: // left mouse click
@@ -183,18 +226,18 @@
 
         }
 
-        function onKeyPressed(key) {
+        function onKeyPressed(key) {            
             //console.log("Event Input key: " + key);
 
-            var keyCode = key.keyCode;
-            console.log("KeyCode: " + keyCode);
-            var keyChar = String.fromCharCode(key.keyCode);
-            console.log("KeyChar: " + keyChar);
+            //var keyCode = key.keyCode;
+            //console.log("KeyCode: " + keyCode);
+            //var keyChar = String.fromCharCode(key.keyCode);
+            //console.log("KeyChar: " + keyChar);
 
 
-            if (keyChar === " ") {
+            // if (keyChar === " ") {
 
-            }
+            // }
         }
 
         // OTHER FUNCTIONS
@@ -205,6 +248,11 @@
         }
 
     </script>
+
+
+
+
+    
 </body>
 
 </html>

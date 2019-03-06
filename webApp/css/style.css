@@ -4,6 +4,7 @@
 
  body {
 	margin: 0;
+	background-color: darkolivegreen
 }
 
 
@@ -26,3 +27,13 @@
 	/* display: inline-block; */
  }
 
+textarea {
+	font-size: 15px;
+	letter-spacing: 1px;
+	padding: 10px;
+	line-height: 1.5;
+	border-radius: 5px;
+	border: 1px dashed #050;
+	box-shadow: 1px 1px 1px #999;
+
+}
