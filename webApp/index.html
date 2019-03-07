@@ -29,8 +29,9 @@
     <!-- HTML DOM - BEGIN -->
     <div class="row">
         <div class="column" style="background-color:#aaa;">
-            <textarea id="codeText" rows="20" cols="80"></textarea>
+            <textarea id="codeText" rows="40" cols="80"></textarea>
             <button onclick="sendCode()">Compile</button>
+            <div id="errorDiv">Vertices are feeling fine</div>
         </div>
         <div class="column" style="background-color:#ccc">
           <div id="viewport"></div>
@@ -41,24 +42,19 @@
 
     <!-- HTML SCRIPTS BEGIN -->
 
-    <!-- <script>
-        window.onerror = function(message, source, lineno, colno, error) {
-            console.log(" AN ERROR HAS FUCKING OCURRED");
-        }
-    </script> -->
-
-    <!-- CODE MIRROR SCRIPT -->
     <script>
+
+
+        // CODE MIRROR SCRIPT
+ 
         var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("codeText"), {
             value: "Starting Text\nLine Two\nLine3",
             mode:  "javascript",
             theme: "darcula",
             lineNumbers: true
         });
-        
+            
         //myCodeMirror.setValue("Start-up Text"); // --> onWinLoad function (bototm)
-
-        
         // myCodeMirror.refresh();
     </script>
 
@@ -69,8 +65,8 @@
             var codeString = myCodeMirror.getValue();
             //console.log(codeString);
 
-            currentShaderCode = codeString;
-            updateShader(currentShaderCode);
+            shaderInputCode = codeString;
+            updateShader(shaderInputCode);
             
         }
     </script>
@@ -113,7 +109,7 @@ void main() {
         var shaderMaterial;
 
         var shaderChanged = false;
-        var currentShaderCode;
+        var shaderInputCode;
         var previousShaderCode;
 
         setup();
@@ -149,6 +145,7 @@ void main() {
             // CAM ORBITER
             var camOrbit = new THREE.OrbitControls(camera, renderer.domElement);
             camera.position.set(2,2,2);
+            camOrbit.enablePan = false; // WORK-AROUND FOR NOT PANNING THE CAMERA WHEN MOVING AROUND THE EDITOR WITH ARROW KEYS
             camOrbit.update(); // CALL AFTER MANUALLY SETTING THE CAMERA
 
 
@@ -229,10 +226,10 @@ void main() {
 				vertexColors: true
             } );
             
-            previousShaderCode = document.getElementById( 'vertexShader' ).textContent;
+            shaderInputCode = document.getElementById( 'vertexShader' ).textContent;
+            previousShaderCode = shaderInputCode;
 
             voxelCube = new THREE.Points(geometry, shaderMaterial);
-
             scene.add(voxelCube);
         }
 
@@ -246,12 +243,28 @@ void main() {
             var infoString = glContext.getShaderInfoLog(shaderMaterial.program.vertexShader);
             var sliced = infoString.slice(0,5); 
             if (sliced === "ERROR" ) {
-                //updateShader(previousShaderCode);
-                currentShaderCode = previousShaderCode
+                console.log("I AIN'T TRUSTIN' THIS SHADER..!!");
+                updateShader(previousShaderCode);
+                updateErrorMessage(false, infoString);
             } else {
-                console.log("SHADER'S ALRIGHT, LET IT THROUGH");                
+                console.log("SHADER'S ALRIGHT, LET HIM THROUGH...");
+                previousShaderCode = shaderInputCode;
+                updateErrorMessage(true,"");
             }
             shaderChanged = false;
+        }
+
+        function updateErrorMessage(status, message){
+            
+            var errorDiv = document.getElementById("errorDiv");
+            if (status) {
+                errorDiv.innerText = "Vertices are chilling, bro!!"
+            } else {
+                var text = "Vertices are Freaking out...!!\n" + message;
+                errorDiv.innerText = text;
+
+            }
+
         }
 
 
