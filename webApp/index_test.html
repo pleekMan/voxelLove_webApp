@@ -31,19 +31,21 @@
 
     <!-- CODE MIRROR SCRIPT -->
     <script>
+
+
         // var myCodeMirror = CodeMirror(document.getElementById("codefield"), {
         //     value: "Starting Text\nLine Two\nLine3",
         //     mode:  "javascript",
         //     linenumber: true
         // });
         
-        
-        var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("codeText"), {
-            value: "Starting Text\nLine Two\nLine3",
-            mode:  "javascript",
-            theme: "darcula",
-            lineNumbers: true
-        });
+        try {
+        var a = ErrorOnPurpose;
+        } catch{
+            console.log("Error");
+            
+        }
+        var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("codeText"));
 
         // var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("codeText"));
         // myCodeMirror.refresh();

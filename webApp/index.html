@@ -41,6 +41,12 @@
 
     <!-- HTML SCRIPTS BEGIN -->
 
+    <!-- <script>
+        window.onerror = function(message, source, lineno, colno, error) {
+            console.log(" AN ERROR HAS FUCKING OCURRED");
+        }
+    </script> -->
+
     <!-- CODE MIRROR SCRIPT -->
     <script>
         var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("codeText"), {
@@ -61,10 +67,10 @@
         function sendCode(){
             //var codeText = document.getElementById("codeText").value;
             var codeString = myCodeMirror.getValue();
-            console.log(codeString);
+            //console.log(codeString);
 
-            shaderMaterial.vertexShader = codeString;
-            voxelCube.material.needsUpdate = true;
+            currentShaderCode = codeString;
+            updateShader(currentShaderCode);
             
         }
     </script>
@@ -87,12 +93,12 @@ void main() {
 
     <!-- SHADER - FRAGMENT  -->
     <script type="x-shader/x-fragment" id="fragmentShader">
-        uniform sampler2D texture;
-        varying vec3 vColor;
-        void main() {
-            gl_FragColor = vec4( vColor, 1.0 );
-            //gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );
-        }
+uniform sampler2D texture;
+varying vec3 vColor;
+void main() {
+    gl_FragColor = vec4( vColor, 1.0 );
+    //gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );
+}
     </script>
 
     <!-- MAIN THREE.JS CODE   -->
@@ -100,10 +106,15 @@ void main() {
 
         var scene, camera, light;
         var renderer;
+        var glContext;
 
         var voxelCube; // type: Points. [A Object3D class for displaying meshes as points (with gl_Points)]
         var vertexDensity = 100.0;
         var shaderMaterial;
+
+        var shaderChanged = false;
+        var currentShaderCode;
+        var previousShaderCode;
 
         setup();
         animate();
@@ -113,6 +124,8 @@ void main() {
             document.addEventListener('mousedown', onMouseDown, false);
             document.addEventListener("keypress", onKeyPressed, false);
             window.addEventListener("load", onWinLoad, false);
+            //window.addEventListener("error", onWinError, false);
+
 
             // DEV TOOLS
             //var stats;
@@ -128,6 +141,8 @@ void main() {
             scene = new THREE.Scene();
             camera = new THREE.PerspectiveCamera(75,viewport.clientWidth / viewport.clientHeight, 0.1, 1000);
             light = new THREE.AmbientLight(0x404040); // soft white light
+            glContext = renderer.getContext(); // FOR LATTER SHADER ERROR HANDLING
+
             scene.add(light);
 
 
@@ -142,6 +157,7 @@ void main() {
             scene.add(new THREE.AxesHelper(1));
 
             setupVoxelCube();
+
         }
 
 
@@ -157,6 +173,10 @@ void main() {
             requestAnimationFrame(animate);
 
             renderer.render(scene, camera);
+
+            if(shaderChanged){
+                checkShaderError();
+            }
 
         }
 
@@ -207,11 +227,31 @@ void main() {
 				depthTest: false,
 				transparent: true,
 				vertexColors: true
-			} );
+            } );
+            
+            previousShaderCode = document.getElementById( 'vertexShader' ).textContent;
 
             voxelCube = new THREE.Points(geometry, shaderMaterial);
 
             scene.add(voxelCube);
+        }
+
+        function updateShader(codeString){
+            shaderMaterial.vertexShader = codeString;
+            voxelCube.material.needsUpdate = true;
+            shaderChanged = true;
+        }
+
+        function checkShaderError(){
+            var infoString = glContext.getShaderInfoLog(shaderMaterial.program.vertexShader);
+            var sliced = infoString.slice(0,5); 
+            if (sliced === "ERROR" ) {
+                //updateShader(previousShaderCode);
+                currentShaderCode = previousShaderCode
+            } else {
+                console.log("SHADER'S ALRIGHT, LET IT THROUGH");                
+            }
+            shaderChanged = false;
         }
 
 
@@ -250,6 +290,12 @@ void main() {
         function onWinLoad() {
             myCodeMirror.setValue(document.getElementById("vertexShader").textContent);
         }
+
+        function onWinError(event){
+            console.log("WINDOW ERROR");
+        }
+
+
 
     </script>
 
