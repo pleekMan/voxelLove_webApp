@@ -77,19 +77,21 @@
     <!-- SHADER - VERTEX -->
     <script type="x-shader/x-vertex" id="vertexShader">
 varying vec3 vColor;
+uniform float time;
+uniform vec3 controls;
 void main() {
     // position (vec3) is the vertex input attribute, in model space
     
     vColor = color;
 
-    vec4 finalPos = vec4(position.x * (1.0 - position.y), position.y, position.z, 1.0);
+    vec4 finalPos = vec4(position.x * sin(position.y + (time * 0.01)), position.y + controls.x, position.z, 1.0);
     gl_Position = projectionMatrix * modelViewMatrix * finalPos;
 }
     </script>
 
     <!-- SHADER - FRAGMENT  -->
     <script type="x-shader/x-fragment" id="fragmentShader">
-uniform sampler2D texture;
+//uniform sampler2D texture;
 varying vec3 vColor;
 void main() {
     gl_FragColor = vec4( vColor, 1.0 );
@@ -111,6 +113,10 @@ void main() {
         var shaderChanged = false;
         var shaderInputCode;
         var previousShaderCode;
+
+        var shaderUniforms;
+        var frameCount = 0;
+        var shaderControls = new THREE.Vector3();
 
         setup();
         animate();
@@ -153,6 +159,7 @@ void main() {
 
             scene.add(new THREE.AxesHelper(1));
 
+
             setupVoxelCube();
 
         }
@@ -167,13 +174,17 @@ void main() {
 
             draw();
 
-            requestAnimationFrame(animate);
+            shaderUniforms.time.value = frameCount;
+            //shaderControls.set(1.0, 0, 0); // update them with sliderGUIs
 
+            requestAnimationFrame(animate);
             renderer.render(scene, camera);
 
             if(shaderChanged){
                 checkShaderError();
             }
+
+            frameCount++;
 
         }
 
@@ -216,8 +227,14 @@ void main() {
 
             //material = new THREE.MeshBasicMaterial({ vertexColors: THREE.VertexColors});
 
+
+            shaderUniforms = {
+                "time": {value: frameCount},
+                "controls": {value: shaderControls}
+            }
+
             shaderMaterial = new THREE.ShaderMaterial( {
-				//uniforms: uniforms,
+				uniforms: shaderUniforms,
 				vertexShader: document.getElementById( 'vertexShader' ).textContent,
 				fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
 				//blending: THREE.AdditiveBlending,
