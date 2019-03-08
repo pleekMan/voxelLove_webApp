@@ -5,7 +5,6 @@
     <title>Voxel Love webApp</title>
 
     <!-- STYLE + THREEjs STUFF -->
-    <link rel="stylesheet" href="css/style.css">
     <script src="js/libs/three.js"></script>
     <script src="js/libs/OrbitControls.js"></script>
 
@@ -14,6 +13,8 @@
     <link rel="stylesheet" href="js/libs/codemirror-5.43.0/lib/codemirror.css">
     <link rel="stylesheet" href="js/libs/codemirror-5.43.0/theme/darcula.css">
     <script src="js/libs/codemirror-5.43.0/mode/javascript/javascript.js"></script>
+
+    <link rel="stylesheet" href="css/style.css">
 
 
     
@@ -27,16 +28,50 @@
 <body>
     
     <!-- HTML DOM - BEGIN -->
-    <div class="row">
-        <div class="column" style="background-color:#aaa;">
-            <textarea id="codeText" rows="40" cols="80"></textarea>
-            <button onclick="sendCode()">Compile</button>
-            <div id="errorDiv">Vertices are feeling fine</div>
-        </div>
-        <div class="column" style="background-color:#ccc">
-          <div id="viewport"></div>
-        </div>
+    <header>HEADER</header>
+    <section>
+        <div id="controlPanel">
+            <div id="controlsContainer">
+                <p>Controls: Range: -1 -> 1</p>
+                <div id="controlsSliderContainer">
+                    <div>
+                        <input type="range" min="1" max="100" value="50" class="slider" id="controlA"><label>controls.x</label>
+                    </div>
+                    <div>
+                        <input type="range" min="1" max="100" value="50" class="slider" id="controlB"><label>controls.y</label>
+                    </div>
+                    <div>
+                        <input type="range" min="1" max="100" value="50" class="slider" id="controlC"><label>controls.z</label>
+                    </div>
+                </div>
+                <div id="controlsLabelContainer">
+                    
+                </div>
+            </div>
+            </div>
+    </section>
+
+
     </div>
+    <section>
+        <div class="container">
+            <div class="columnLeft" style="background-color:#aaa;">
+                
+                <textarea id="codeText" rows="40" cols="80"></textarea>
+                <button onclick="sendCode()">Compile</button>
+
+                <div id="errorDiv">Vertices are feeling fine</div>
+            </div>
+
+            <!-- <div class="columnCenter">
+                CENTROOOOOOOOOOOOOOO
+            </div> -->
+
+            <div class="columnRight" id="viewPortColumn" style="background-color:#ccc">
+                <div id="viewport"></div>
+            </div>
+        </div>
+    </section>
 
     <!-- HTML DOM - END -->
 
@@ -53,6 +88,19 @@
             theme: "darcula",
             lineNumbers: true
         });
+        myCodeMirror.setSize(900,500);
+
+        myCodeMirror.setOption("extraKeys", {
+            "Cmd-R": function(cm) {
+                sendCode();
+                // var spaces = Array(cm.getOption("indentUnit") + 1).join("--");
+                // cm.replaceSelection(spaces);
+            },
+            "Ctrl-R": function(cm) {
+                sendCode();
+            }
+        });
+
             
         //myCodeMirror.setValue("Start-up Text"); // --> onWinLoad function (bototm)
         // myCodeMirror.refresh();
@@ -84,7 +132,7 @@ void main() {
     
     vColor = color;
 
-    vec4 finalPos = vec4(position.x * sin(position.y + (time * 0.01)), position.y + controls.x, position.z, 1.0);
+    vec4 finalPos = vec4(position.x * sin(position.y + (time * (0.1 * controls.x    ))), position.y + controls.y, position.z, 1.0);
     gl_Position = projectionMatrix * modelViewMatrix * finalPos;
 }
     </script>
@@ -110,13 +158,16 @@ void main() {
         var vertexDensity = 100.0;
         var shaderMaterial;
 
-        var shaderChanged = false;
+        var isShaderCorrected = false;
         var shaderInputCode;
         var previousShaderCode;
 
         var shaderUniforms;
         var frameCount = 0;
         var shaderControls = new THREE.Vector3();
+        var controlElementA = document.getElementById("controlA");
+        var controlElementB = document.getElementById("controlB");
+        var controlElementC = document.getElementById("controlC");
 
         setup();
         animate();
@@ -175,13 +226,23 @@ void main() {
             draw();
 
             shaderUniforms.time.value = frameCount;
-            //shaderControls.set(1.0, 0, 0); // update them with sliderGUIs
+
+            var mappedControls = new THREE.Vector3(controlElementA.value / 50 - 1, controlElementB.value / 50 - 1, controlElementC.value / 50 - 1);
+            shaderControls.set(mappedControls.x, mappedControls.y, mappedControls.z); // update them with sliderGUIs
 
             requestAnimationFrame(animate);
             renderer.render(scene, camera);
 
-            if(shaderChanged){
-                checkShaderError();
+            if(!isShaderCorrected){
+                var correct = checkShaderError();
+
+                if (correct) {
+                    //document.getElementByClass("columnLeft").setAttribute("class", "columnLeft correct");
+                    document.getElementById("errorDiv").style.backgroundColor = "green";
+                } else {
+                    //document.getElementByClass("columnLeft").setAttribute("class", "columnLeft error");
+                    document.getElementById("errorDiv").style.backgroundColor = "red";
+                }
             }
 
             frameCount++;
@@ -253,22 +314,27 @@ void main() {
         function updateShader(codeString){
             shaderMaterial.vertexShader = codeString;
             voxelCube.material.needsUpdate = true;
-            shaderChanged = true;
+            isShaderCorrected = false;
         }
 
         function checkShaderError(){
             var infoString = glContext.getShaderInfoLog(shaderMaterial.program.vertexShader);
-            var sliced = infoString.slice(0,5); 
+            var sliced = infoString.slice(0,5);
+
             if (sliced === "ERROR" ) {
                 console.log("I AIN'T TRUSTIN' THIS SHADER..!!");
+                // isShaderCorrect = false;
                 updateShader(previousShaderCode);
+                isShaderCorrected = true;
                 updateErrorMessage(false, infoString);
+                return false;
             } else {
                 console.log("SHADER'S ALRIGHT, LET HIM THROUGH...");
                 previousShaderCode = shaderInputCode;
+                isShaderCorrected = true;
                 updateErrorMessage(true,"");
+                return true;
             }
-            shaderChanged = false;
         }
 
         function updateErrorMessage(status, message){
