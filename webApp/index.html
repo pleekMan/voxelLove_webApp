@@ -312,9 +312,9 @@ void main() {
         }
 
         function updateShader(codeString){
+            isShaderCorrected = false;
             shaderMaterial.vertexShader = codeString;
             voxelCube.material.needsUpdate = true;
-            isShaderCorrected = false;
         }
 
         function checkShaderError(){

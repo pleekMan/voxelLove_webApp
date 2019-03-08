@@ -1,0 +1,35 @@
+.col{
+	background-color: aqua;
+}
+
+.container-fluid{
+	padding: 0px;
+	margin: 0px;
+}
+
+#codeColumn{
+	flex: 1;
+	background-color: cadetblue;
+}
+
+#viewportColumn{
+	flex: 0 0 600px;
+	margin: 0px;
+	padding: 0px;
+	background-color: brown;
+}
+
+#viewport{
+	width: 600px;
+	height: 600px;
+	padding: 0px;
+}
+
+.CodeMirror{
+	border: 1px solid #0e0;
+	/* height: auto; */
+	width: auto;
+	height: 600px;
+}
+
+
