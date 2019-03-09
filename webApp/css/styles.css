@@ -2,6 +2,11 @@
 	background-color: aqua;
 }
 
+.row{
+	/* width: 100%; */
+	/* text-align: right; */
+}
+
 .container-fluid{
 	padding: 0px;
 	margin: 0px;
@@ -10,6 +15,7 @@
 #codeColumn{
 	flex: 1;
 	background-color: cadetblue;
+	width: 1px; /* THIS MAKES THE EDITOR NOT TAKE UP ALL THE ROW, AND THE ROW AND BE ADAPTABLE*/
 }
 
 #viewportColumn{
