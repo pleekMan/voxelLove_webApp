@@ -29,39 +29,40 @@
 <body>
     <nav class="navbar navbar-light">
         <a class="navbar-brand" id="headerTitle" href="#">
-            <img src="images/voxelLove_50px.png" width="50" height="50" class="d-inline-block align-top" alt="Voxel Love">
+            <img src="images/voxelLove_50px.png" width="50" height="50" class="d-inline-block align-top"
+                alt="Voxel Love">
             Voxel Love
         </a>
     </nav>
 
     <div class="container-fluid" id="middle">
-        <div class="row" id="textContainer">
-            <div class="col">
+        <div class="row" >
+            <div class="col" id="textContainer">
                 TEXT
             </div>
             <div class="col" id="controls">
 
-                <div id="controlsContainer">
-                    <div id="controlsSliderContainer">
+                <div class="row" id="controlsContainer">
+                    <div class="col" id="slidercontainer">
                         <div>
-                            <input type="range" min="1" max="100" value="50" class="slider"
-                                id="controlA"><label>controls.x</label>
+                            <input type="range" min="1" max="100" value="50" class="slider" id="controlA">
                         </div>
                         <div>
-                            <input type="range" min="1" max="100" value="50" class="slider"
-                                id="controlB"><label>controls.y</label>
+                            <input type="range" min="1" max="100" value="50" class="slider" id="controlB">
                         </div>
                         <div>
-                            <input type="range" min="1" max="100" value="50" class="slider"
-                                id="controlC"><label>controls.z</label>
+                            <input type="range" min="1" max="100" value="50" class="slider" id="controlC">
                         </div>
                     </div>
-                    <div id="controlsLabelContainer">
 
+                    <div class="col">
                     </div>
                 </div>
-            </div>
 
+                <div id="controlsLabelContainer">
+
+                </div>
+            </div>
         </div>
     </div>
 
