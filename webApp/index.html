@@ -36,7 +36,7 @@
     </nav>
 
     <div class="container-fluid" id="middle">
-        <div class="row" >
+        <div class="row">
             <div class="col" id="textContainer">
                 TEXT
             </div>
@@ -44,23 +44,24 @@
 
                 <div class="row" id="controlsContainer">
                     <div class="flex-column" id="sliderContainer">
-                            <input type="range" min="1" max="100" value="50" class="slider" id="controlA">
-                            <label>0.01</label>
-                            <input type="range" min="1" max="100" value="50" class="slider" id="controlB">
-                            <label>-0.34</label>
-                            <input type="range" min="1" max="100" value="50" class="slider" id="controlC">
-                            <label>1.00</label>
+                        <input type="range" min="1" max="100" value="50" class="slider" id="controlA">
+                        <label>0.01</label>
+                        <input type="range" min="1" max="100" value="50" class="slider" id="controlB">
+                        <label>-0.34</label>
+                        <input type="range" min="1" max="100" value="50" class="slider" id="controlC">
+                        <label>1.00</label>
                     </div>
                     <div class="flex-column" id="sliderContainer2">
-                            <input class="form-control-sm" id="controlDensity" placeholder="100">
-                            <small class="form-text text-muted" id="controlDensityLabel" style="color:orangered;">Vertex Density<sup>3</sup></small>
+                        <input class="form-control-sm" id="controlDensity" placeholder="100">
+                        <small class="form-text text-muted" id="controlDensityLabel" style="color:orangered;">Vertex
+                            Density<sup>3</sup></small>
                     </div>
                     <div class="flex-column" id="sliderContainer2">
-                            <button type="button" class="btn btn-info btn-sm" id="controlResetCamera">Reset Camera</button>
-                            <input type="checkbox">
-                            <label>Show Axis</label>
-
-                            <!-- <button type="button" class="btn btn-info btn-sm" id="showAxis">Reset Camera</button> -->
+                        <button type="button" class="btn btn-info btn-sm" id="controlResetCamera">Reset Camera</button>
+                        <div>
+                            <input type="checkbox" class="custom-control-input" id="axisCheckBox" checked>
+                            <label class="custom-control-label" for="axisCheckBox">Show Axis</label>
+                        </div>
                     </div>
                 </div>
 
@@ -83,8 +84,13 @@
     </div>
 
     <div class="container-fluid">
-        <button onclick="sendCode()">Compile</button>
-        <div id="errorDiv">Vertices are feeling fine</div>
+        <div id="compileButtonContainer">
+            <button type="button" class="btn btn-info btn-sm" id="compileButton" onclick="sendCode()">Compile</button>
+            <label id="compileButtonLabel" for="compileButton"><small>Ctrl/Cmd + R on Editor</small></label>
+        </div>
+        <div class="alert alert-danger" id="errorDiv" role="alert">
+                This is a danger alert with. Give it a click if you like.
+            </div>
     </div>
 
     <!-- CODE MIRROR SCRIPT -->
