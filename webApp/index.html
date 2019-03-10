@@ -43,25 +43,28 @@
             <div class="col" id="controls">
 
                 <div class="row" id="controlsContainer">
-                    <div class="col" id="slidercontainer">
-                        <div>
+                    <div class="flex-column" id="sliderContainer">
                             <input type="range" min="1" max="100" value="50" class="slider" id="controlA">
-                        </div>
-                        <div>
+                            <label>0.01</label>
                             <input type="range" min="1" max="100" value="50" class="slider" id="controlB">
-                        </div>
-                        <div>
+                            <label>-0.34</label>
                             <input type="range" min="1" max="100" value="50" class="slider" id="controlC">
-                        </div>
+                            <label>1.00</label>
                     </div>
+                    <div class="flex-column" id="sliderContainer2">
+                            <input class="form-control-sm" id="controlDensity" placeholder="100">
+                            <small class="form-text text-muted" id="controlDensityLabel" style="color:orangered;">Vertex Density<sup>3</sup></small>
+                    </div>
+                    <div class="flex-column" id="sliderContainer2">
+                            <button type="button" class="btn btn-info btn-sm" id="controlResetCamera">Reset Camera</button>
+                            <input type="checkbox">
+                            <label>Show Axis</label>
 
-                    <div class="col">
+                            <!-- <button type="button" class="btn btn-info btn-sm" id="showAxis">Reset Camera</button> -->
                     </div>
                 </div>
 
-                <div id="controlsLabelContainer">
 
-                </div>
             </div>
         </div>
     </div>
