@@ -1,5 +1,11 @@
+@import url(https://fonts.googleapis.com/css?family=Raleway);
+@charset "utf-8";
+
+body{
+	background-color: black;
+}
 .col{
-	background-color: aqua;
+	/* background-color: aqua; */
 }
 
 .row{
@@ -7,35 +13,93 @@
 	/* text-align: right; */
 }
 
+/* NAV HEADER */
+
+.navbar{
+	padding: 0px;
+	background-color: black;
+	line-height: 50px;
+
+}
+.navbar-brand{
+	padding: 0px;
+	color: white;
+
+}
+
+.navbar-nav > li > a {
+}
+
+#headerTitle{
+	color: white;
+	font-family: 'Raleway', Verdana, Geneva, Arial, sans-serif;
+	text-align: center;
+}
+
+
 .container-fluid{
 	padding: 0px;
 	margin: 0px;
 }
 
-#codeColumn{
-	flex: 1;
-	background-color: cadetblue;
-	width: 1px; /* THIS MAKES THE EDITOR NOT TAKE UP ALL THE ROW, AND THE ROW AND BE ADAPTABLE*/
+#codeViewport{
+	background-color: black;
 }
 
+#codeColumn{
+	flex: 1;
+	background-color: black;
+	width: 1px; /* THIS MAKES THE EDITOR NOT TAKE UP ALL THE ROW, AND THE ROW AND BE ADAPTABLE*/
+
+	/* border: none;
+	-webkit-transition : border 500ms ease-out; 
+	-moz-transition : border 500ms ease-out;
+	-o-transition : border 500ms ease-out; */
+}
+
+/*
+#codeColumn:hover{
+	flex: 1;
+	background-color: cadetblue;
+	width: 1px; THIS MAKES THE EDITOR NOT TAKE UP ALL THE ROW, AND THE ROW AND BE ADAPTABLE
+
+	border: 5px solid red;
+}
+*/
+
 #viewportColumn{
-	flex: 0 0 600px;
+	flex: 0 0 500px;
 	margin: 0px;
 	padding: 0px;
-	background-color: brown;
+	background-color:black;
 }
 
 #viewport{
-	width: 600px;
-	height: 600px;
+	width: 500px;
+	height: 500px;
 	padding: 0px;
 }
 
+#middle{
+	background-color: rgb(50, 50, 75); 
+}
+
+#controls.col{
+	flex: 0 0 500px;
+	margin: 0px;
+	padding: 0px;
+}
+/* #controlsContainer{
+	flex: 0 0 500px;
+	margin: 0px;
+	padding: 0px;
+} */
+
 .CodeMirror{
-	border: 1px solid #0e0;
+	/* border: 1px solid #0e0; */
 	/* height: auto; */
 	width: auto;
-	height: 600px;
+	height: 500px;
 }
 
 
