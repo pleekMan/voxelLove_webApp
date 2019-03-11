@@ -1,0 +1,6 @@
+
+Voxel Love is a playground for vertex shaders.
+The vertices are packed inside a cube, within normalized space.
+The 3 RGB sliders over the viewport enter the shader as the variable controls.xyz
+vertexColor gets passed onto the fragment shader, to modify each vertex color.
+Tools used: THREE.js, CodeMirror Editor, Bootstrap.

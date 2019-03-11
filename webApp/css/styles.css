@@ -14,6 +14,18 @@ body {
 	/* text-align: right; */
 }
 
+a{
+	color:  rgb(137, 196, 206);
+}
+
+a>code{
+	color: #e83e8c;
+}
+.container-fluid {
+	padding: 0px;
+	margin: 0px;
+}
+
 /* NAV HEADER */
 
 .navbar {
@@ -27,18 +39,28 @@ body {
 	color: white;
 }
 
-.navbar-nav>li>a {}
-
 #headerTitle {
 	color: white;
 	font-family: 'Raleway', Verdana, Geneva, Arial, sans-serif;
 	text-align: center;
 }
 
-.container-fluid {
-	padding: 0px;
-	margin: 0px;
+.textContainer p{
+	font-size: 11px;
+	color: #afafaf;
+	padding-left: 30px;
+	padding-top: 5px;
+	
 }
+
+#footer{
+	position:fixed;
+	top:3px;
+	left:100%;
+	transform:translateX(-370px);
+	width:100%;
+}
+
 
 #codeViewport {
 	background-color: black;
@@ -175,6 +197,10 @@ label {
 	box-shadow: none !important; */
 }
 
+#controlDensityLabel{
+	color: #c1d0de!important;
+}
+
 .btn-info {
 	color: white;
 	border: solid 1px rgb(160, 160, 160);
@@ -221,6 +247,10 @@ label {
 	border: solid 1px rgb(82, 80, 80);
 	background-color: rgb(82, 80, 80);
 
+}
+
+#checkBoxContainer{
+	margin-left: 6px;
 }
 
 .custom-control-label {
@@ -271,14 +301,23 @@ label {
 
 .alert-danger {
 	/* bootstrapOverride */
-	background-color: crimson;
+	background-color: #ab0010;
 	color: white;
 }
 
+#errorDiv{
+	letter-spacing: 2px;
+	transition: all 0.5s;
+	line-height: 20px;
+	font-family: Tahoma, sans-serif, monospace
+}
+
+/* CODE MIRROR  */
 
 .CodeMirror {
 	/* border: 1px solid #0e0; */
 	/* height: auto; */
 	width: auto;
 	height: 500px;
+	font-size: 0.75rem;
 }
