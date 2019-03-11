@@ -56,9 +56,10 @@ a>code{
 #footer{
 	position:fixed;
 	top:3px;
-	left:100%;
-	transform:translateX(-370px);
+	/* left:100%; */
+	/* transform:translateX(-370px); */
 	width:100%;
+	text-align: right;
 }
 
 

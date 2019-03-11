@@ -13,7 +13,7 @@
     <script src="js/libs/codemirror-5.43.0/lib/codemirror.js"></script>
     <link rel="stylesheet" href="js/libs/codemirror-5.43.0/lib/codemirror.css">
     <link rel="stylesheet" href="js/libs/codemirror-5.43.0/theme/darcula.css">
-    <script src="js/libs/codemirror-5.43.0/mode/javascript/javascript.js"></script>
+    <script src="js/libs/codemirror-5.43.0/mode/glsl/glsl.js"></script>
 
 
     <!-- Bootstrap CSS -->
@@ -96,7 +96,9 @@
                 Error Messages
             </div>
         <div class="col textContainer" id="footer">
-            <p><a href="http://www.pleek.net" target="_blank"> <code>www.pleek.net</code></a> &nbsp;&nbsp;&nbsp; Tools used: <a href="https://threejs.org/" target="_blank">THREE.js</a>, <a href="https://codemirror.net/" target="_blank">CodeMirror</a>, <a href="https://getbootstrap.com/" target="_blank">Bootstrap</a>.</p>
+            <p><a href="http://www.pleek.net" target="_blank"> <code>www.pleek.net</code></a> &nbsp;&nbsp;&nbsp; Tools used: <a href="https://threejs.org/" target="_blank">THREE.js</a>, <a href="https://codemirror.net/" target="_blank">CodeMirror</a>, <a href="https://getbootstrap.com/" target="_blank">Bootstrap</a>
+            </br>Made at <a href="http://recurse.com" target="_blank">The Recurse Center</a>
+            </p>
             </div>
     </div>
 
@@ -105,7 +107,7 @@
 
         var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("codeText"), {
             value: "Starting Text\nLine Two\nLine3",
-            mode: "javascript",
+            mode: "glsl",
             theme: "darcula",
             lineNumbers: true
         });
@@ -184,7 +186,7 @@ void main() {
         var glContext;
 
         var voxelCube; // type: Points. [A Object3D class for displaying meshes as points (with gl_Points)]
-        var vertexDensity = 50.0;
+        var vertexDensity = 100.0;
         var shaderMaterial;
 
         var isShaderCorrected = false;
@@ -311,7 +313,7 @@ void main() {
 
             voxelCube = new THREE.Points();
 
-            setupVoxelVertices(50);
+            setupVoxelVertices(vertexDensity);
 
             shaderUniforms = {
                 "time": { value: frameCount },
@@ -342,7 +344,7 @@ void main() {
 
             var positions = [];
             var colors = [];
-            //var sizes = [];
+            var sizes = [];
 
             var geometry = new THREE.BufferGeometry();
             var color = new THREE.Color();
@@ -360,7 +362,7 @@ void main() {
                         color.setRGB(x / vertexDensity, y / vertexDensity, z / vertexDensity);
                         colors.push(color.r, color.g, color.b);
 
-                        //sizes.push(2);
+                        sizes.push(2);
 
                     }
                 }
@@ -369,7 +371,7 @@ void main() {
 
             geometry.addAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
             geometry.addAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-            //geometry.addAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));//.setDynamic( true ) );
+            geometry.addAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));//.setDynamic( true ) );
 
             // NOT CLEARING ANYTHING.. JUST RELYING ON JS GARBAGE COLLECTOR HERE...  :S
             voxelCube.geometry = geometry;
@@ -407,7 +409,7 @@ void main() {
             //errorDiv.style.transition = "all 0.5s";
 
             if (status) {
-                errorDiv.innerText = "";
+                errorDiv.innerText = " :) ";
                 errorDiv.style.backgroundColor = "black";
                 errorDiv.style.color = "black";
             } else {
@@ -426,7 +428,7 @@ void main() {
 
             const editorlineNumberingOffset = 42;
 
-            for (let i = 0; i < lines.length - 1; i++) {
+            for (var i = 0; i < lines.length - 1; i++) {
                 var elements = lines[i].split(":");
 
                 var lineNumber = parseInt(elements[2]) - editorlineNumberingOffset;
