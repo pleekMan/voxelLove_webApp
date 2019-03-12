@@ -21,10 +21,10 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 
-
+    <!-- VOXEL LOVE -->
+    <script src="js/shaderPool.js"></script>
     <link rel="stylesheet" href="css/styles.css">
 
     <title>Voxel Love :: Editor</title>
@@ -54,14 +54,12 @@
             </div>
 
             <div class="column-flex dropdown" id="examplesContainer">
-                <button class="btn btn-secondary dropdown-toggle" id="examplesButton" type="button" id="dropdownMenuButton"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn btn-secondary dropdown-toggle" id="examplesButton" type="button"
+                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Examples
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                    <a class="dropdown-item" id="examplesItem" onclick="loadShader(this.innerText)">shader1</a>
                 </div>
             </div>
 
@@ -206,20 +204,20 @@ void main() {
     </script>
 
 
-
     <!-- MAIN THREE.JS CODE   -->
 
     <script>
-
         var scene, camera, camOrbit, light, axisGizmo;
         var renderer;
         var glContext;
+        // shaderPool exist automatically cuz of script import at the top
 
         var clock = new THREE.Clock(true);
 
         var voxelCube; // type: Points. [A Object3D class for displaying meshes as points (with gl_Points)]
         var vertexDensity = 100.0;
         var shaderMaterial;
+        var shaderPool;
 
         var isShaderCorrected = false;
         var shaderInputCode;
@@ -288,19 +286,22 @@ void main() {
         }
 
 
+
+
         function animate() {
 
             shaderUniforms.time.value = clock.getElapsedTime();
 
-            //requestAnimationFrame(animate);
+            requestAnimationFrame(animate);
             renderer.render(scene, camera);
-
 
             if (!isShaderCorrected) checkShaderError();
 
             //frameCount++;
 
         }
+
+
 
 
 
@@ -474,6 +475,18 @@ void main() {
         }
 
         // CONTROLS CALLBACKS --------------
+        function loadShader(shaderName) {
+            console.log("Loading Shader: " + shaderName);
+            
+            var shaderCode = shaderPool[0].data.join(); // JOIN DOES NOT BEHAVE THAT WELL ()
+            myCodeMirror.setValue(shaderCode);
+            sendCode(shaderCode);
+
+
+
+        }
+
+
         function updateShaderControls(channel, value) {
             value = (value - 50) / 50; // map to -1 -> 1
             shaderControls.setComponent(channel, value);
