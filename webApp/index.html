@@ -60,6 +60,8 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" id="examplesItem" onclick="loadShader(this.innerText)">shader1</a>
+                    <a class="dropdown-item" id="examplesItem" onclick="loadShader(this.innerText)">shader2</a>
+
                 </div>
             </div>
 
@@ -134,7 +136,7 @@
     <script>
 
         var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("codeText"), {
-            value: "Starting Text\nLine Two\nLine3",
+            //value: "Starting Text\nLine Two\nLine3",
             mode: "glsl",
             theme: "darcula",
             lineNumbers: true
@@ -477,12 +479,17 @@ void main() {
         // CONTROLS CALLBACKS --------------
         function loadShader(shaderName) {
             console.log("Loading Shader: " + shaderName);
-            
-            var shaderCode = shaderPool[0].data.join(); // JOIN DOES NOT BEHAVE THAT WELL ()
+
+            var shaderCode = fetchShader(shaderName).join("\n");
             myCodeMirror.setValue(shaderCode);
             sendCode(shaderCode);
+        }
 
-
+        function fetchShader(sName) {
+            var shaderObject = shaderPool.find(function (element) {
+                return element.name === sName;
+            });
+            return shaderObject.data;
 
         }
 
