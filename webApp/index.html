@@ -16,7 +16,11 @@
     <script src="js/libs/codemirror-5.43.0/mode/glsl/glsl.js"></script>
 
 
-    <!-- Bootstrap CSS -->
+    <!-- Bootstrap  -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
@@ -27,6 +31,7 @@
 </head>
 
 <body>
+
     <nav class="navbar navbar-light">
         <a class="navbar-brand" id="headerTitle" href="#">
             <img src="images/voxelLove_50px.png" width="50" height="50" class="d-inline-block align-top"
@@ -35,35 +40,58 @@
         </a>
     </nav>
 
+
     <div class="container-fluid" id="middle">
         <div class="row">
             <div class="col textContainer">
-                <p>Voxel Love is a playground for vertex shaders. The vertices are packed inside a cube, within a normalized space.</br>
-                    The 3 RGB sliders over the viewport enter the shader as the variable <code> controls.xyz </code></br>
+                <p>Voxel Love is a playground for vertex shaders. The vertices are packed inside a cube, within a
+                    normalized space.</br>
+                    The 3 RGB sliders over the viewport enter the shader as the variable
+                    <code> controls.xyz </code></br>
                     <code>vertexColor</code> gets passed onto the fragment shader, to modify each vertex color.</br>
                     <code>position.xyz</code> is the vertex position in local space.
                 </p>
             </div>
+
+            <div class="column-flex dropdown" id="examplesContainer">
+                <button class="btn btn-secondary dropdown-toggle" id="examplesButton" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Examples
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </div>
+
+
             <div class="col" id="controls">
 
                 <div class="row" id="controlsContainer">
                     <div class="flex-column" id="sliderContainer">
-                        <input type="range" min="1" max="100" value="50" class="slider" id="controlA" oninput="updateShaderControls(0,this.value)">
+                        <input type="range" min="1" max="100" value="50" class="slider" id="controlA"
+                            oninput="updateShaderControls(0,this.value)">
                         <label id="controlALabel">0.01</label>
-                        <input type="range" min="1" max="100" value="50" class="slider" id="controlB" oninput="updateShaderControls(1,this.value)">
+                        <input type="range" min="1" max="100" value="50" class="slider" id="controlB"
+                            oninput="updateShaderControls(1,this.value)">
                         <label id="controlBLabel">-0.34</label>
-                        <input type="range" min="1" max="100" value="50" class="slider" id="controlC" oninput="updateShaderControls(2,this.value)">
+                        <input type="range" min="1" max="100" value="50" class="slider" id="controlC"
+                            oninput="updateShaderControls(2,this.value)">
                         <label id="controlCLabel">1.00</label>
                     </div>
                     <div class="flex-column" id="sliderContainer2">
-                        <input class="form-control-sm" id="controlDensity" placeholder="100" onchange="updateVertexDensity(this.value)">
+                        <input class="form-control-sm" id="controlDensity" placeholder="100"
+                            onchange="updateVertexDensity(this.value)">
                         <small class="form-text text-muted" id="controlDensityLabel" style="color:orangered;">Vertex
                             Density<sup>3</sup></small>
                     </div>
                     <div class="flex-column" id="sliderContainer2">
-                        <button type="button" class="btn btn-info btn-sm" id="controlResetCamera" onclick="resetCameraPosition()">Reset Camera</button>
+                        <button type="button" class="btn btn-info btn-sm" id="controlResetCamera"
+                            onclick="resetCameraPosition()">Reset Camera</button>
                         <div id="checkBoxContainer">
-                            <input type="checkbox" class="custom-control-input" id="axisCheckBox" checked onclick="toggleAxisGizmos(this)">
+                            <input type="checkbox" class="custom-control-input" id="axisCheckBox" checked
+                                onclick="toggleAxisGizmos(this)">
                             <label class="custom-control-label" for="axisCheckBox">Show Axis</label>
                         </div>
                     </div>
@@ -93,13 +121,15 @@
             <label id="compileButtonLabel" for="compileButton"><small>Ctrl/Cmd + R on Editor</small></label>
         </div>
         <div class="alert alert-danger" id="errorDiv" role="alert">
-                Error Messages
-            </div>
+            Error Messages
+        </div>
         <div class="col textContainer" id="footer">
-            <p><a href="http://www.pleek.net" target="_blank"> <code>www.pleek.net</code></a> &nbsp;&nbsp;&nbsp; Tools used: <a href="https://threejs.org/" target="_blank">THREE.js</a>, <a href="https://codemirror.net/" target="_blank">CodeMirror</a>, <a href="https://getbootstrap.com/" target="_blank">Bootstrap</a>
-            </br>Made at <a href="http://recurse.com" target="_blank">The Recurse Center</a>
+            <p><a href="http://www.pleek.net" target="_blank"> <code>www.pleek.net</code></a> &nbsp;&nbsp;&nbsp; Tools
+                used: <a href="https://threejs.org/" target="_blank">THREE.js</a>, <a href="https://codemirror.net/"
+                    target="_blank">CodeMirror</a>, <a href="https://getbootstrap.com/" target="_blank">Bootstrap</a>
+                </br>Made at <a href="http://recurse.com" target="_blank">The Recurse Center</a>
             </p>
-            </div>
+        </div>
     </div>
 
     <!-- CODE MIRROR SCRIPT -->
@@ -152,13 +182,13 @@ const float TWO_PI = 6.28318530718;
 const float HALF_PI = 1.57079632679;
 
 uniform vec3 controls;
-uniform float time;
+uniform float time; // IN SECONDS
 varying vec4 vertexColor;
 
 void main() {
 
-    float wavyX = position.x * sin(position.y * TWO_PI + (time * (0.1 * controls.x) ) ); // DRAG THE RED SLIDER
-    float offsetY = position.y + controls.y;
+    float wavyX = position.x * sin(position.y * TWO_PI + (time * controls.x ) ); // DRAG THE RED SLIDER
+    float offsetY = position.y + controls.y; // DRAG THE GREEN SLIDER
     vec4 finalPos = vec4(wavyX, offsetY, position.z, 1.0);
 
     gl_Position = projectionMatrix * modelViewMatrix * finalPos;
@@ -184,6 +214,8 @@ void main() {
         var scene, camera, camOrbit, light, axisGizmo;
         var renderer;
         var glContext;
+
+        var clock = new THREE.Clock(true);
 
         var voxelCube; // type: Points. [A Object3D class for displaying meshes as points (with gl_Points)]
         var vertexDensity = 100.0;
@@ -239,16 +271,17 @@ void main() {
 
 
             // SETUP - END
-            axisGizmo = new THREE.AxesHelper(1); 
+            axisGizmo = new THREE.AxesHelper(1);
             scene.add(axisGizmo);
 
             setupVoxelCube();
 
             // GUI SETUP ---------------
 
-            updateShaderControls(0,50);
-            updateShaderControls(1,50);
-            updateShaderControls(2,50);
+            updateShaderControls(0, 75);
+            controlElementA.value = 75;
+            updateShaderControls(1, 50);
+            updateShaderControls(2, 50);
 
             document.getElementById("controlDensity").value = vertexDensity;
 
@@ -257,15 +290,15 @@ void main() {
 
         function animate() {
 
-            shaderUniforms.time.value = frameCount;
+            shaderUniforms.time.value = clock.getElapsedTime();
 
-            requestAnimationFrame(animate);
+            //requestAnimationFrame(animate);
             renderer.render(scene, camera);
 
 
-            if (!isShaderCorrected)checkShaderError();
+            if (!isShaderCorrected) checkShaderError();
 
-            frameCount++;
+            //frameCount++;
 
         }
 
@@ -338,7 +371,7 @@ void main() {
             scene.add(voxelCube);
         }
 
-        function setupVoxelVertices(inVertexDensity){
+        function setupVoxelVertices(inVertexDensity) {
 
             vertexDensity = inVertexDensity;
 
@@ -441,7 +474,7 @@ void main() {
         }
 
         // CONTROLS CALLBACKS --------------
-        function updateShaderControls(channel, value){
+        function updateShaderControls(channel, value) {
             value = (value - 50) / 50; // map to -1 -> 1
             shaderControls.setComponent(channel, value);
 
@@ -449,26 +482,26 @@ void main() {
             //console.log(shaderControls);
         }
 
-        function updateControlsLabel(shaderControls){
+        function updateControlsLabel(shaderControls) {
             document.getElementById("controlALabel").innerText = shaderControls.x;
             document.getElementById("controlBLabel").innerText = shaderControls.y;
             document.getElementById("controlCLabel").innerText = shaderControls.z;
         }
 
-        function updateVertexDensity(newVertexCount){
+        function updateVertexDensity(newVertexCount) {
             setupVoxelVertices(newVertexCount > 5 ? newVertexCount : 5);
             document.getElementById("controlDensity").value = vertexDensity;
 
 
         }
 
-        function resetCameraPosition(){
+        function resetCameraPosition() {
             camera.position.set(2, 2, 2);
             camOrbit.update(); // CALL AFTER MANUALLY SETTING THE CAMERA
 
         }
 
-        function toggleAxisGizmos(object){
+        function toggleAxisGizmos(object) {
             axisGizmo.visible = object.checked;
         }
 
@@ -515,18 +548,7 @@ void main() {
 
     </script>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<!--     
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-        crossorigin="anonymous"></script> -->
+
 </body>
 
 </html>

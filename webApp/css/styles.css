@@ -10,7 +10,7 @@ body {
 }
 
 .row {
-	/* width: 100%; */
+	width: 100%; 
 	/* text-align: right; */
 }
 
@@ -32,6 +32,7 @@ a>code{
 	padding: 0px;
 	background-color: black;
 	line-height: 50px;
+	padding-left: 20px;
 }
 
 .navbar-brand {
@@ -45,6 +46,11 @@ a>code{
 	text-align: center;
 }
 
+#topMenu{
+	background-color: #ab0010;
+	color: aqua;
+}
+
 .textContainer p{
 	font-size: 11px;
 	color: #afafaf;
@@ -53,12 +59,49 @@ a>code{
 	
 }
 
+.dropdown{
+}
+
+#examplesContainer{
+	/* text-align: right; */
+	right: 25px;
+	top: 38px;
+}
+
+.dropdown-toggle{
+	background-color: #2b2b2b; 
+	border-radius: 0;
+	outline: none;
+}
+
+#examplesButton{
+	font-size: 13px;
+	border-bottom: none;
+}
+
+.dropdown-item{
+	background-color: #2b2b2b;
+	border-radius: 0;
+	font-size: 13px;
+	color: white;
+}
+
+.dropdown-menu{
+ background-color:#535b62;
+ border-radius: 0;
+
+}
+
+
+
+
+
 #footer{
-	position:fixed;
+	position:absolute;
 	top:3px;
-	/* left:100%; */
-	/* transform:translateX(-370px); */
-	width:100%;
+	left:100%;
+	transform:translateX(-390px);
+	width:390px;
 	text-align: right;
 }
 
