@@ -58,10 +58,8 @@
                     id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Examples
                 </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" id="examplesItem" onclick="loadShader(this.innerText)">shader1</a>
-                    <a class="dropdown-item" id="examplesItem" onclick="loadShader(this.innerText)">shader2</a>
-
+                <div class="dropdown-menu" id="examplesItemsContainer" aria-labelledby="dropdownMenuButton">
+                    <!-- <a class="dropdown-item" id="examplesItem" onclick="loadShader(this.innerText)">shader1</a> -->
                 </div>
             </div>
 
@@ -71,13 +69,13 @@
                 <div class="row" id="controlsContainer">
                     <div class="flex-column" id="sliderContainer">
                         <input type="range" min="1" max="100" value="50" class="slider" id="controlA"
-                            oninput="updateShaderControls(0,this.value)">
+                            oninput="updateShaderControls(0,this.value, false)">
                         <label id="controlALabel">0.01</label>
                         <input type="range" min="1" max="100" value="50" class="slider" id="controlB"
-                            oninput="updateShaderControls(1,this.value)">
+                            oninput="updateShaderControls(1,this.value, false)">
                         <label id="controlBLabel">-0.34</label>
                         <input type="range" min="1" max="100" value="50" class="slider" id="controlC"
-                            oninput="updateShaderControls(2,this.value)">
+                            oninput="updateShaderControls(2,this.value, false)">
                         <label id="controlCLabel">1.00</label>
                     </div>
                     <div class="flex-column" id="sliderContainer2">
@@ -236,18 +234,15 @@ void main() {
         animate();
 
         function setup() {
-            // EVENT LISTENERS
+
+            // DOM STUFF & EVENT LISTENERS
             document.addEventListener('mousedown', onMouseDown, false);
             document.addEventListener("keypress", onKeyPressed, false);
             window.addEventListener("load", onWinLoad, false);
+            buildExamplesMenu();
+
 
             //window.addEventListener("error", onWinError, false);
-
-
-            // DEV TOOLS
-            //var stats;
-            //initStatsPanel();
-
             var viewport = document.getElementById("viewport");
 
             renderer = new THREE.WebGLRenderer();
@@ -278,10 +273,9 @@ void main() {
 
             // GUI SETUP ---------------
 
-            updateShaderControls(0, 75);
-            controlElementA.value = 75;
-            updateShaderControls(1, 50);
-            updateShaderControls(2, 50);
+            //updateShaderControls(0, 0, true);
+            //updateShaderControls(1, 0, true);
+            //updateShaderControls(2, 0, true);
 
             document.getElementById("controlDensity").value = vertexDensity;
 
@@ -311,42 +305,6 @@ void main() {
 
         function setupVoxelCube() {
 
-            /*
-            var positions = [];
-            var colors = [];
-            var sizes = [];
-
-            var geometry = new THREE.BufferGeometry();
-            var color = new THREE.Color();
-
-
-            var separation = 1.0 / vertexDensity;
-            //var separation = 1.0 / vertexDensity;
-            for (var z = 0; z < vertexDensity; z++) {
-                for (var y = 0; y < vertexDensity; y++) {
-                    for (var x = 0; x < vertexDensity; x++) {
-
-                        //var arrayPos = x + (y*RES_X) + (z*RES_X*RES_Y);
-                        positions.push(x * separation, y * separation, z * separation);
-
-                        color.setRGB(x / vertexDensity, y / vertexDensity, z / vertexDensity);
-                        colors.push(color.r, color.g, color.b);
-
-                        sizes.push(2);
-
-                    }
-                }
-            }
-
-
-            geometry.addAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-            geometry.addAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-            geometry.addAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));//.setDynamic( true ) );
-
-            */
-
-            //material = new THREE.MeshBasicMaterial({ vertexColors: THREE.VertexColors});
-
             voxelCube = new THREE.Points();
 
             setupVoxelVertices(vertexDensity);
@@ -356,9 +314,11 @@ void main() {
                 "controls": { value: shaderControls }
             }
 
+            //var startShaderCode = shaderPool[0].code.join("\n");
+
             shaderMaterial = new THREE.ShaderMaterial({
                 uniforms: shaderUniforms,
-                vertexShader: document.getElementById('vertexShader').textContent,
+                vertexShader: "",
                 fragmentShader: document.getElementById('fragmentShader').textContent,
                 //blending: THREE.AdditiveBlending,
                 depthTest: false,
@@ -366,12 +326,19 @@ void main() {
                 vertexColors: true
             });
 
-            shaderInputCode = document.getElementById('vertexShader').textContent;
-            previousShaderCode = shaderInputCode;
+            // shaderInputCode = startShaderCode;
+            // previousShaderCode = shaderInputCode;
+            //shaderInputCode = document.getElementById('vertexShader').textContent;
+            //previousShaderCode = shaderInputCode;
 
             voxelCube.material = shaderMaterial;
             //voxelCube = new THREE.Points(geometry, shaderMaterial);
             scene.add(voxelCube);
+
+            var shaderObject = loadShader("Twist");
+
+            shaderInputCode = shaderObject.code.join("\n");
+            previousShaderCode = shaderInputCode;
         }
 
         function setupVoxelVertices(inVertexDensity) {
@@ -480,22 +447,44 @@ void main() {
         function loadShader(shaderName) {
             console.log("Loading Shader: " + shaderName);
 
-            var shaderCode = fetchShader(shaderName).join("\n");
-            myCodeMirror.setValue(shaderCode);
-            sendCode(shaderCode);
+            var shaderObject = fetchShader(shaderName);
+
+            if (shaderObject != null) {
+                // SET CODE IN EDITOR
+                var shaderCode = shaderObject.code.join("\n");
+                myCodeMirror.setValue(shaderCode);
+
+                // UPDATE GLOBAL shaderControl
+                updateShaderControls(0, shaderObject.controlsInitial[0], true);
+                updateShaderControls(1, shaderObject.controlsInitial[1], true);
+                updateShaderControls(2, shaderObject.controlsInitial[2], true);
+
+                // UPDATE GUI
+                updateControlSliders(shaderControls);
+                updateControlsLabel(shaderControls);
+
+                // SEND TO ENGINE
+                sendCode(shaderCode);
+
+                return shaderObject;
+
+            } else {
+                console.error("-| Voxel Love :: No Saved shader found with name " + shaderName);
+            }
+
         }
 
         function fetchShader(sName) {
             var shaderObject = shaderPool.find(function (element) {
                 return element.name === sName;
             });
-            return shaderObject.data;
+            return shaderObject;
 
         }
 
 
-        function updateShaderControls(channel, value) {
-            value = (value - 50) / 50; // map to -1 -> 1
+        function updateShaderControls(channel, value, normalized) {
+            value = normalized ? value : (value - 50) / 50;
             shaderControls.setComponent(channel, value);
 
             updateControlsLabel(shaderControls);
@@ -506,6 +495,12 @@ void main() {
             document.getElementById("controlALabel").innerText = shaderControls.x;
             document.getElementById("controlBLabel").innerText = shaderControls.y;
             document.getElementById("controlCLabel").innerText = shaderControls.z;
+        }
+
+        function updateControlSliders(shaderControls) {
+            document.getElementById("controlA").value = (shaderControls.x * 50 + 50).toString();
+            document.getElementById("controlB").value = (shaderControls.y * 50 + 50).toString();
+            document.getElementById("controlC").value = (shaderControls.z * 50 + 50).toString();
         }
 
         function updateVertexDensity(newVertexCount) {
@@ -523,6 +518,17 @@ void main() {
 
         function toggleAxisGizmos(object) {
             axisGizmo.visible = object.checked;
+        }
+
+        function buildExamplesMenu() {
+            // <a class="dropdown-item" id="examplesItem" onclick="loadShader(this.innerText)">shader1</a>
+
+            var examplesContainer = $("#examplesItemsContainer");
+
+            shaderPool.forEach(element => {
+                var examplesItemTag = $('<a class="dropdown-item" id="examplesItem" onclick="loadShader(this.innerText)">shaderName</a>');
+                examplesContainer.append(examplesItemTag.text(element.name));
+            });
         }
 
 
@@ -560,7 +566,7 @@ void main() {
 
 
         function onWinLoad() {
-            myCodeMirror.setValue(document.getElementById("vertexShader").textContent);
+            //myCodeMirror.setValue(document.getElementById("vertexShader").textContent);
             //myCodeMirror.setSize(document.getElementById("codeColumn").getAttribute("width"), 500);
             //myCodeMirror.refresh();
         }
