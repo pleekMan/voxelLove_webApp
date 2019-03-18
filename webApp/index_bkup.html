@@ -44,9 +44,9 @@
     <div class="container-fluid" id="middle">
         <div class="row">
             <div class="col textContainer" id="description">
-                <p>A cube of size 1 x 1 x 1, filled with points. Sculpt it by coding the vertex shader below. Check out the <code>Examples</code> menu.</br>
+                <p>A cube of size 1 x 1 x 1, filled with vertex points. Sculpt/warp it by coding the vertex shader below. For a starting point, select the "<code>Clean Cube</code>" example.</br>
                     Shader inputs: each vertex’s <code>position.xyz</code> and <code>color.rgb</code></br>
-                    The <code>Red, Green and Blue sliders</code> over to the right are mapped to <code>controls.rgb</code>, play with them at will.
+                    The <code>Red, Green and Blue sliders</code> over to the right? They are mapped to <code>controls.rgb</code>, play with them at will.
                 </p>
             </div>
 
@@ -113,21 +113,16 @@
     <div class="container-fluid">
         <div id="compileButtonContainer">
             <button type="button" class="btn btn-info btn-sm" alt="Ctrl/Cmd + R" id="compileButton" onclick="sendCode()">Compile</button>
-            <label id="compileButtonLabel" for="compileButton"> <small> - Keyboard shortcut: </small>Ctrl / Cmd + R <small> on code editor</small></label>
+            <label id="compileButtonLabel" for="compileButton"> <small>Keyboard shortcut: </small>Ctrl / Cmd + R <small> on code editor</small></label>
         </div>
         <div class="alert alert-danger" id="errorDiv" role="alert">
             Error Messages
         </div>
-        <div class="col textContainer" id="credits">
+        <div class="col textContainer" id="footer">
             <p><a href="http://www.pleek.net" target="_blank"> <code>www.pleek.net</code></a> &nbsp;&nbsp;&nbsp; Tools
                 used: <a href="https://threejs.org/" target="_blank">THREE.js</a>, <a href="https://codemirror.net/"
                     target="_blank">CodeMirror</a>, <a href="https://getbootstrap.com/" target="_blank">Bootstrap</a>
                 </br>Made at <a href="http://recurse.com" target="_blank">The Recurse Center</a>
-            </p>
-        </div>
-        <div class="col textContainer" id="footer">
-            <p>On Windows OS, you might be faced with a sad, sad empty black display.</br>
-            This is a webGL/ANGLE compatibility issue. Working on it...
             </p>
         </div>
     </div>
@@ -301,7 +296,6 @@ void main() {
 
             //var startShaderCode = shaderPool[0].code.join("\n");
 
-            
             shaderMaterial = new THREE.ShaderMaterial({
                 uniforms: shaderUniforms,
                 vertexShader: "",
@@ -311,19 +305,17 @@ void main() {
                 transparent: true,
                 vertexColors: true
             });
-            
 
             // shaderInputCode = startShaderCode;
             // previousShaderCode = shaderInputCode;
             //shaderInputCode = document.getElementById('vertexShader').textContent;
             //previousShaderCode = shaderInputCode;
 
-
             voxelCube.material = shaderMaterial;
-            //voxelCube = new THREE.Points(voxelCube, shaderMaterial);
+            //voxelCube = new THREE.Points(geometry, shaderMaterial);
             scene.add(voxelCube);
 
-            var shaderObject = loadShader("Clean Cube");
+            var shaderObject = loadShader("Twist");
 
             shaderInputCode = shaderObject.code.join("\n");
             previousShaderCode = shaderInputCode;
@@ -353,7 +345,7 @@ void main() {
                         color.setRGB(x / vertexDensity, y / vertexDensity, z / vertexDensity);
                         colors.push(color.r, color.g, color.b);
 
-                        sizes.push(1); // 
+                        sizes.push(4);
 
                     }
                 }
@@ -362,7 +354,7 @@ void main() {
 
             geometry.addAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
             geometry.addAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-            geometry.addAttribute('vertexSize', new THREE.Float32BufferAttribute(sizes, 1));//.setDynamic( true ) );
+            geometry.addAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));//.setDynamic( true ) );
 
             // NOT CLEARING ANYTHING.. JUST RELYING ON JS GARBAGE COLLECTOR HERE...  :S
             voxelCube.geometry = geometry;
@@ -411,7 +403,7 @@ void main() {
                 errorDiv.style.color = "black";
             } else {
                 errorDiv.innerText = reFormatErrorMessage(message);
-                errorDiv.style.backgroundColor = "rgb(100,0,25)";
+                errorDiv.style.backgroundColor = "#ab0010";
                 errorDiv.style.color = "white";
             }
 

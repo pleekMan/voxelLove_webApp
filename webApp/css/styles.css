@@ -59,12 +59,17 @@ a>code{
 	
 }
 
+#description p{
+	font-size: 12px;
+	line-height: 20px;
+}
+
 .dropdown{
 }
 
 #examplesContainer{
 	/* text-align: right; */
-	right: 25px;
+	right: 29px;
 	top: 38px;
 }
 
@@ -100,17 +105,23 @@ a>code{
 
 }
 
-
-
-
-
-#footer{
+#credits{
 	position:absolute;
 	top:3px;
 	left:100%;
 	transform:translateX(-390px);
 	width:390px;
 	text-align: right;
+}
+
+#footer{
+	/* position:fixed; */
+	/* bottom:-20px; */
+	/* left:100%; */
+	/* transform:translateX(-390px); */
+	/* width:390px; */
+	text-align: right;
+	color: #6c757d;
 }
 
 
@@ -353,7 +364,7 @@ label {
 
 .alert-danger {
 	/* bootstrapOverride */
-	background-color: #ab0010;
+	background-color: rgb(100,0,25);
 	color: white;
 }
 
