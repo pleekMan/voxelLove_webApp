@@ -122,14 +122,15 @@
             <p><a href="http://www.pleek.net" target="_blank"> <code>www.pleek.net</code></a> &nbsp;&nbsp;&nbsp; Tools
                 used: <a href="https://threejs.org/" target="_blank">THREE.js</a>, <a href="https://codemirror.net/"
                     target="_blank">CodeMirror</a>, <a href="https://getbootstrap.com/" target="_blank">Bootstrap</a>
-                </br>Made at <a href="http://recurse.com" target="_blank">The Recurse Center</a>
+                </br><a href="https://github.com/pleekMan/voxelLove_webApp" target="_blank">GitHub repo</a> || Made at <a href="http://recurse.com" target="_blank">The Recurse Center</a> 
             </p>
         </div>
-        <div class="col textContainer" id="footer">
+        
+        <!-- <div class="col textContainer" id="footer">
             <p>On Windows OS, you might be faced with a sad, sad empty black display.</br>
             This is a webGL/ANGLE compatibility issue. Working on it...
             </p>
-        </div>
+        </div> -->
     </div>
 
     <!-- CODE MIRROR SCRIPT -->
@@ -523,7 +524,8 @@ void main() {
 
             var examplesContainer = $("#examplesItemsContainer");
 
-            shaderPool.forEach(element => {
+            
+            shaderPool.forEach((element,index) => {
                 var examplesItemTag = $('<a class="dropdown-item" id="examplesItem" onclick="loadShader(this.innerText)">shaderName</a>');
                 examplesContainer.append(examplesItemTag.text(element.name));
             });

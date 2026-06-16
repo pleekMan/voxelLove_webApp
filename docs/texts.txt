@@ -4,3 +4,80 @@ The vertices are packed inside a cube, within normalized space.
 The 3 RGB sliders over the viewport enter the shader as the variable controls.xyz
 vertexColor gets passed onto the fragment shader, to modify each vertex color.
 Tools used: THREE.js, CodeMirror Editor, Bootstrap.
+
+—————
+
+Vertex Love is a playground for vertex shaders.
+
+A cube of size 1 x 1 x 1, filled with points. Sculpt it by coding the vertex shader below. Check out the “Examples” menu..!
+Shader inputs: each vertex’s position.xyz and color.rgb
+The Red, Green and Blue sliders over to the right? They are mapped to controls.rgb, play with them at will.
+
+—
+< VertexLove :: version 1.0 >
+
+http://pleek.net/vertexlove/
+
+(English / Español / Française)
+
+// ENGLISH
+I’m releasing version 1.0 of “Vertex Love”, an online vertex shader editor project made during the first weeks at the Recurse Center residency, New York.
+—
+Given a box filled with vertices/points, you can sculpt, warp, deform and color this cube into something completely different by coding the vertex shader within the editor.
+All the vertices lie inside a space of 1.0 x 1.0 x 1.0 units.
+—
+It’s a nice playground to practice GLSL programming.
+Check out the Examples menu for an idea of how to proceed.
+You can rotate and zoom the view.
+-
+Feedback is appreciated..!
+
+
+
+// ESPAÑOL
+Estoy lanzando la versión 1.0 de "Vertex Love", un editor online de vertex shaders realizado durante las primeras semanas en la residencia del Recurse Center, New York.
+-
+Dada una caja llena de vértices/puntos, puedes esculpir, deformar y colorear este cubo para convertirlo en algo completamente diferente, progrmamando el vertex shader dentro del editor.
+Todos los vértices se encuentran dentro de un espacio de 1.0 x 1.0 x 1.0 unidades.
+-
+Es un buen lugar para practicar la programación GLSL.
+Mirate el menu de Ejemplos (Examples) para tener una idea de cómo proceder.
+Puedes girar y hacerle zoom a la visual.
+-
+Se agradecen las críticas..!
+
+// FRANÇAISE
+Je publie la version 1.0 de "Vertex Love", un éditeur en ligne de vertex shader créé au cours des premières semaines à la résidence du Recurse Center, à New York.
+-
+Avec une boîte pleine de sommets / points, vous pouvez sculpter, déformer et colorer ce cube pour le transformer en quelque chose de complètement différent, en programmant le vertex shader dans l'éditeur.
+Tous les sommets se trouvent dans un espace de 1,0 x 1,0 x 1,0 unités.
+-
+C'est un bon endroit pour pratiquer la programmation GLSL.
+Consultez le menu Exemples pour avoir une idée de la marche à suivre.
+Vous pouvez faire pivoter et zoomer sur le visuel.
+-
+Les critiques et commentaires sont appréciées..!
+
+
+======================
+
+
+PLEEK.NET TEXT
+
+
+Voxel Love is a playground for coding GLSL Vertex shaders.
+
+Given a box filled with vertices/points, you can sculpt, warp, deform and color this cube into something completely different by coding the shader within the editor.
+All the vertices lie inside a normalized space of 1.0 x 1.0 x 1.0 units.
+You are also given 3 sliders. Their value gets input into the shader, so you can easily test and manipulate the visuals.
+You can rotate and zoom the view.
+
+Happy vertex sculpting to you!
+
+—
+
+This project was born on the first weeks of a programming retreat at The Recurse Center, in New York, USA.
+
+
+
+
